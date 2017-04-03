@@ -2,8 +2,6 @@ num_im = 1;
 canvas = imread('red_canvas.jpg');
 scale = 1.5;
 
-
-
 for i = 1:num_im
     file_name = strcat('img/brain_',sprintf('%03d',i),'.jpg');
     I = imread(file_name);
@@ -25,8 +23,9 @@ for i = 1:num_im
     yshift = thetamap(theta, dimz(1),2048, 270);
     xphishift = (2048-xshift-dimz(2)/2)*phi/90;
     yphishift = (2048-yshift-dimz(1)/2)*phi/90;
-    
     local_canvas(1+yshift+yphishift:dimz(1)+yshift+yphishift,1+xshift+xphishift:dimz(2)+xshift+xphishift,:) = Ir;
     imshow(uint8(local_canvas));
+    out_name = strcat('img/brainMap_',sprintf('%03d',i),'.jpg');
+    %imwrite(local_canvas, out_name);
 end
 
