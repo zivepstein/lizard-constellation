@@ -4,7 +4,7 @@ function coord = thetamap(theta, rect_side, r,offset)
 %     coord = offset + theta*(2*r-rect_side)/180;
 % else 
 %     coord = offset +4*r - 2*rect_side +  theta*(rect_side-2*r)/180;
-    coord = (2*r-rect_side)/2 *(1+sin((theta-offset)*pi/180))
+    coord = (2*r-rect_side)/2 *(1+sin((theta-offset)*pi/180));
 end
 % 
 %   if theta <= 135

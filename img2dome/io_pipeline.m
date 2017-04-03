@@ -19,11 +19,20 @@ for i = 1:num_im
     IM = imresize(IM,1920/dimz_b(2)); 
     Ir = imrotate(IM,theta);
     dimz = size(Ir);
-    xshift = thetamap(theta, dimz(2),2048, 0);
-    yshift = thetamap(theta, dimz(1),2048, 270);
+    xshift = round(thetamap(theta, dimz(2),2048, 0));
+    yshift = round(thetamap(theta, dimz(1),2048, 270));
     xphishift = (2048-xshift-dimz(2)/2)*phi/90;
     yphishift = (2048-yshift-dimz(1)/2)*phi/90;
-    local_canvas(1+yshift+yphishift:dimz(1)+yshift+yphishift,1+xshift+xphishift:dimz(2)+xshift+xphishift,:) = Ir;
+    for y=1+yshift+yphishift:dimz(1)+yshift+yphishift
+        for x=1+xshift+xphishift:dimz(2)+xshift+xphishift
+            if sum(Ir(y -yshift-yphishift,x -xshift-yphishift,:)) > 0
+                local_canvas(x,y,:) = Ir(y -yshift-yphishift,x -xshift-yphishift,:);
+            end
+            x_image = x_image + 1;
+        end
+        y_image = y_image + 1;
+    end
+    %local_canvas(1+yshift+yphishift:dimz(1)+yshift+yphishift,1+xshift+xphishift:dimz(2)+xshift+xphishift,:) = Ir;
     imshow(uint8(local_canvas));
     out_name = strcat('img/brainMap_',sprintf('%03d',i),'.jpg');
     %imwrite(local_canvas, out_name);
